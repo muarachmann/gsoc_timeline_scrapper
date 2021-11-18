@@ -24,27 +24,32 @@ def format_date(timeline):
     return timeline.split() # make list to get date and time
 
 def main():
-    results = [];
-    rows = []
-    for tr in trs:
-        rows.append([col.text for col in tr.findAll('td')])
+    if trs:
+        results = []
+        rows = []
+        for tr in trs:
+            rows.append([col.text for col in tr.findAll('td')])
 
-    for row in rows[1:]:
-        formatted_date = format_date(row[0])
-        if formatted_date[0] in months and formatted_date[0] == datetime.now().strftime("%B"):
-            results.append(row[0] + " - " + row[1])
+        for row in rows[1:]:
+            formatted_date = format_date(row[0])
+            if formatted_date[0] in months and formatted_date[0] == datetime.now().strftime("%B"):
+                results.append(row[0] + " - " + row[1])
      
-    if len(results) < 0:
-        results.append("GSoC isn't happening now. Please check later or visit https://summerofcode.withgoogle.com for more info")
-        print("GSoC isn't happening now!")
-    else:
-        print("\n".join(results))
+        if len(results) < 0:
+            results.append("GSoC isn't happening now. Please check later or visit https://summerofcode.withgoogle.com for more info")
+            print("GSoC isn't happening now!")
+        else:
+            print("\n".join(results))
             
-    # dumps results in a json file for bots to read
-    with open('data.json', 'w', encoding='utf-8') as f:
-        data = json.dumps({'length' : len(results), 'data' : results }, indent = 4, sort_keys=True)
-        f.write(data)
-        f.close()
+        # dumps results in a json file for bots to read
+        with open('data.json', 'w', encoding='utf-8') as f:
+            data = json.dumps({'length' : len(results), 'data' : results }, indent = 4, sort_keys=True)
+            f.write(data)
+            f.close()
+    else:
+        print('No table timeline found!')
+ 
+    
         
 if __name__ == '__main__':
     main()
