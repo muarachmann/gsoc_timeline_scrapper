@@ -17,7 +17,7 @@ except ConnectionError:
 table = soup.find('table')
 
 # get all trs in the table body
-trs = table.tbody.findAll('tr')
+trs = table.tbody.findAll('tr') if table else None
 
 # format date and and time according to GSoC specifications
 def format_date(timeline):
